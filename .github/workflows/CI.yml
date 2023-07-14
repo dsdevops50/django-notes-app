@@ -1,38 +1,32 @@
-name: Django CI
+name: notes-app
 
 on:
   workflow_dispatch:
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest
+
     strategy:
-      max-parallel: 4
       matrix:
         python-version: [3.9]
 
     steps:
-     - uses: actions/checkout@v3
-     - name: Set up Python ${{ matrix.python-version }}
-       uses: actions/setup-python@v3
-       with:
-         python-version: ${{ matrix.python-version }}
-     - name: Install Dependencies
-       run: |
-         python -m pip install --upgrade pip
-         pip install -r requirements.txt
-         
-     - name: Docker login
-       env:
-         DOCKER_USER: ${{ secrets.DOCKER_USER }}
-         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-       run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        - name: Code Clone from GitHub
+          uses: actions/checkout@v1
+        - name: Install Dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
           
-     - name: Docker image build and push to docker repo
-       run: |
-         docker build -t dsdevops50/django-note-app:latest .
-         docker push dsdevops50/django-note-app:latest
-        
-        
-        
+        - name: Docker login
+          env:
+            DOCKER_USER: ${{ secrets.DOCKER_USER }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          run: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+        - name: Docker image build and push to docker repo
+          run: |
+            docker build -t dsdevops50/django-note-app:latest .
+            docker push dsdevops50/django-note-app:latest

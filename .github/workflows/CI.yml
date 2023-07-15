@@ -24,5 +24,5 @@ jobs:
 
         - name: Docker image build and push to docker repo
           run: |
-            docker build -t dsdevops50/django-note-app:latest .
-            docker push dsdevops50/django-note-app:latest
+            docker build -t dsdevops50/notes-app:latest .
+            docker push dsdevops50/notes-app:latest

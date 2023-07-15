@@ -14,10 +14,6 @@ jobs:
     steps:
         - name: Code Clone from GitHub
           uses: actions/checkout@v1
-        - name: Install Dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
           
         - name: Docker login
           env:
